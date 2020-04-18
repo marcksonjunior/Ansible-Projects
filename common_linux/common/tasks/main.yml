@@ -19,24 +19,25 @@
 
 
 
-  #### Gerenciamento de pacotes e atualizaçao do sistema operacional
-  #
-  #
-- name: Instalação do repositorio epel-release
-  yum: name=epel-release state=latest
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+
+#- name: Instalação do repositorio epel-release
+#  yum: name=epel-release state=latest
+#  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+- name: ADD repositorio Epel-release
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    state: present
 
 - name: Atualização do Sistema Operacional RerHat Like
   yum: name=* state=latest update_cache=yes
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: Instalação de pacotes - RedHat/Centos
   yum:
     name: "{{ common_packages_redhat }}"
     state: latest
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-
-
+    skip_broken: yes
+    
 - name: Criar usuario CentOS
   user:
     name: admin
@@ -47,33 +48,6 @@
     groups: wheel
     password: "{{ passwordAdminRedHat | password_hash('sha512') }}"
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
-  ####SISTEMAS DEBIAN
-
-- name: Atualização do Sistema Operacional Debian Like
-  apt:
-    update_cache: yes
-    upgrade: yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: Instalação de Pacotes - Debian
-  apt:
-    name: "{{ common_packages_debian }}"
-    state: latest
-    update_cache: yes
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-- name: Criar usuario CentOS
-  user:
-    name: admin
-    comment: "Usuario Administrador"
-    shell: /bin/bash
-    createhome: yes
-    home: /home/admin
-    groups: sudo
-    password: "{{ passwordAdminRedHat | password_hash('sha512') }}"
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-
-
 
 ### Timezone
 

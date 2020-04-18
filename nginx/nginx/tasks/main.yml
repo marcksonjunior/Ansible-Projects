@@ -16,12 +16,12 @@
     name: nginx
     enabled: yes
 
-- name: Libera porta 80
-  firewalld:
-    service: http
-    permanent: true
-    state: enabled
-  notify: Reload Firewalld
+#- name: Libera porta 80
+#  firewalld:
+#    service: http
+#    permanent: true
+#    state: enabled
+#  notify: Reload Firewalld
 
 
 - name: Backup Config NGIX
