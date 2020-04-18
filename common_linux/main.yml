@@ -1,0 +1,8 @@
+---
+- name: Playbook Common Linux
+  hosts: all
+  roles:
+    - common
+
+...
+

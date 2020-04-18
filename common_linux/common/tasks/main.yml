@@ -1,0 +1,102 @@
+---
+# ----Configurações Gerais-----#
+
+- name: Alteração do /etc/profile
+  lineinfile: dest=/etc/profile line={{ item }}
+  with_items:
+          - '#---- Variaveis e Alias Customizados ----#'
+          - 'export HISTTIMEFORMAT="%d/%m%Y - %H:%M%S - "'
+          - 'export HISTSIZE="5000"'
+          - 'export HISTFILESIZE="5000"'
+          - 'alias ls="ls -lh --color"'
+          - 'alias vi="vim"'
+          - 'alias rm="rm -i"'
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+
+
+  #### Gerenciamento de pacotes e atualizaçao do sistema operacional
+  #
+  #
+- name: Instalação do repositorio epel-release
+  yum: name=epel-release state=latest
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+- name: Atualização do Sistema Operacional RerHat Like
+  yum: name=* state=latest update_cache=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+- name: Instalação de pacotes - RedHat/Centos
+  yum:
+    name: "{{ common_packages_redhat }}"
+    state: latest
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+
+- name: Criar usuario CentOS
+  user:
+    name: admin
+    comment: "Usuario Administrador"
+    shell: /bin/bash
+    createhome: yes
+    home: /home/admin
+    groups: wheel
+    password: "{{ passwordAdminRedHat | password_hash('sha512') }}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+  ####SISTEMAS DEBIAN
+
+- name: Atualização do Sistema Operacional Debian Like
+  apt:
+    update_cache: yes
+    upgrade: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Instalação de Pacotes - Debian
+  apt:
+    name: "{{ common_packages_debian }}"
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Criar usuario CentOS
+  user:
+    name: admin
+    comment: "Usuario Administrador"
+    shell: /bin/bash
+    createhome: yes
+    home: /home/admin
+    groups: sudo
+    password: "{{ passwordAdminRedHat | password_hash('sha512') }}"
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+
+### Timezone
+
+- name: Configurando o timezone
+  file: src=/usr/share/zoneinfo/Europe/Lisbon dest=/etc/localtime state=link force=yes owner=root group=root
+
+### Configurando SSHD
+
+- name: Configurando sshd_config
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    regexp={{ item.regexp }}
+    line={{ item.line }}
+  with_items:
+    - { regexp: '#Port 22', line: 'Port 22' }
+    - { regexp: '#Banner none', line: Banner '/etc/ssh/banner_ssh' }
+    - { regexp: 'X11Forwarding yes', line: ' X11Forwarding no' }
+
+- name: Definindo protocolo versao 2 do ssh
+  lineinfile: dest=/etc/ssh/sshd_config line='Protocol 2'
+
+- name: Adcionando o motd
+  template: src=motd dest=/etc/motd force=yes owner=root group=root mode=0755
+  notify:
+    - Restart SSH

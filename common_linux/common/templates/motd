@@ -1,0 +1,28 @@
+                                                                        ''''''                                                                                               
+EEEEEEEEEEEEEEEEEEEEEE       GGGGGGGGGGGGGIIIIIIIIII   SSSSSSSSSSSSSSS  '::::'        GGGGGGGGGGGGG                                                                          
+E::::::::::::::::::::E    GGG::::::::::::GI::::::::I SS:::::::::::::::S '::::'     GGG::::::::::::G                                                                          
+E::::::::::::::::::::E  GG:::::::::::::::GI::::::::IS:::::SSSSSS::::::S ':::''   GG:::::::::::::::G                                                                          
+EE::::::EEEEEEEEE::::E G:::::GGGGGGGG::::GII::::::IIS:::::S     SSSSSSS':::'    G:::::GGGGGGGG::::G                                                                          
+  E:::::E       EEEEEEG:::::G       GGGGGG  I::::I  S:::::S            ''''    G:::::G       GGGGGGrrrrr   rrrrrrrrr      ooooooooooo   uuuuuu    uuuuuu ppppp   ppppppppp   
+  E:::::E            G:::::G                I::::I  S:::::S                   G:::::G              r::::rrr:::::::::r   oo:::::::::::oo u::::u    u::::u p::::ppp:::::::::p  
+  E::::::EEEEEEEEEE  G:::::G                I::::I   S::::SSSS                G:::::G              r:::::::::::::::::r o:::::::::::::::ou::::u    u::::u p:::::::::::::::::p 
+  E:::::::::::::::E  G:::::G    GGGGGGGGGG  I::::I    SS::::::SSSSS           G:::::G    GGGGGGGGGGrr::::::rrrrr::::::ro:::::ooooo:::::ou::::u    u::::u pp::::::ppppp::::::p
+  E:::::::::::::::E  G:::::G    G::::::::G  I::::I      SSS::::::::SS         G:::::G    G::::::::G r:::::r     r:::::ro::::o     o::::ou::::u    u::::u  p:::::p     p:::::p
+  E::::::EEEEEEEEEE  G:::::G    GGGGG::::G  I::::I         SSSSSS::::S        G:::::G    GGGGG::::G r:::::r     rrrrrrro::::o     o::::ou::::u    u::::u  p:::::p     p:::::p
+  E:::::E            G:::::G        G::::G  I::::I              S:::::S       G:::::G        G::::G r:::::r            o::::o     o::::ou::::u    u::::u  p:::::p     p:::::p
+  E:::::E       EEEEEEG:::::G       G::::G  I::::I              S:::::S        G:::::G       G::::G r:::::r            o::::o     o::::ou:::::uuuu:::::u  p:::::p    p::::::p
+EE::::::EEEEEEEE:::::E G:::::GGGGGGGG::::GII::::::IISSSSSSS     S:::::S         G:::::GGGGGGGG::::G r:::::r            o:::::ooooo:::::ou:::::::::::::::uup:::::ppppp:::::::p
+E::::::::::::::::::::E  GG:::::::::::::::GI::::::::IS::::::SSSSSS:::::S          GG:::::::::::::::G r:::::r            o:::::::::::::::o u:::::::::::::::up::::::::::::::::p 
+E::::::::::::::::::::E    GGG::::::GGG:::GI::::::::IS:::::::::::::::SS             GGG::::::GGG:::G r:::::r             oo:::::::::::oo   uu::::::::uu:::up::::::::::::::pp  
+EEEEEEEEEEEEEEEEEEEEEE       GGGGGG   GGGGIIIIIIIIII SSSSSSSSSSSSSSS                  GGGGGG   GGGG rrrrrrr               ooooooooooo       uuuuuuuu  uuuup::::::pppppppp    
+                                                                                                                                                          p:::::p            
+                                                                                                                                                          p:::::p            
+                                                                                                                                                         p:::::::p           
+                                                                                                                                                         p:::::::p           
+                                                                                                                                                         p:::::::p           
+                                                                                                                                                         ppppppppp    
+Host: "{{ ansible_hostname }}"
+IP Adress: "{{ ansible_default_ipv4 }}"
+Distribution: "{{ ansible_distribution }}"
+
+

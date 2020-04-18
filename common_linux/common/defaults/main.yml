@@ -1,0 +1,23 @@
+---
+common_packages_redhat:
+  - vim
+  - "@Development tools"
+  - net-tools
+  - nmap
+  - tcpdump
+  - htop
+  - wget
+  - telnet
+common_packages_debian:
+  - vim
+  - net-tools
+  - nmap
+  - tcpdump
+  - htop
+  - wget
+  - telnet
+
+passwordAdminDebian: 'ansible'
+passwordAdminRedHat: 'ansible'
+
+...

@@ -1,0 +1,64 @@
+---
+
+- name: Instalacao de Pacotes
+  yum:
+    name: [ 'mariadb-server', 'python3-PyMySQL' ]
+    state: latest
+
+- name: Criação da senha de root
+  command: openssl rand -base64 14 creates=/root/.my.cnf
+  register: mysql_root_pass
+
+- name: Display password
+  debug:
+   msg: "Password: {{ mysql_root_pass.stdout }}"
+  when:
+    - mysql_root_pass.changed
+
+- name: Start Mysql
+  systemd:
+    name: mariadb
+    enabled: true
+    state: restarted
+#Talvez colocar acima como started
+- name: Alterar a senha de root
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mysql_root_pass.stdout }}"
+  when:
+    - mysql_root_pass.changed
+
+- name: Copiando template .my.cnf
+  template: src=.my.cnf dest=/root/.my.cnf owner=root group=root mode='600'
+  when:
+      - mysql_root_pass.changed
+  notify:
+    -  Restart MariaDB
+- name: Removendo o acesso Anonimo
+  mysql_user: name="" host=localhost state=absent
+
+- name: Removendo a base test
+  mysql_db: name=test state=absent
+
+
+- name: Criação da base de dados Wordpress
+  mysql_db:
+    name: 'wordpress'
+    state: 'present'
+    login_host: 'localhost'
+
+
+
+- name: Criação do usuario Wordpress e liberaçao de acessoa  base de dados Wordpress.
+  mysql_user:
+    name: 'wordpress'
+    password: 'wordpress'
+    priv: 'wordpress.*:ALL'
+    host: 'localhost'
+    #login_user: 'root'
+    #login_password: "{{ mysql_root_pass.stdout }}"
+    login_host: 'localhost'
+
+
+...

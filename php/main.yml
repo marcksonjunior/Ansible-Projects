@@ -1,0 +1,7 @@
+---
+- name: Playbook Common Linux
+  hosts: all
+  roles:
+    - php
+...
+

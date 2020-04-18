@@ -1,0 +1,45 @@
+---
+
+- name: Instalar repositorio NGINX
+  copy: src=nginx.repo dest=/etc/yum.repos.d/nginx.repo owner=root group=root
+
+- name: Atualização Sistema Operacional
+  yum: name=* state=latest update_cache=yes
+
+- name: Instalação Pacotes Nginx
+  yum:
+    name: nginx
+    state: latest
+
+- name: Habilitando NGINX
+  systemd:
+    name: nginx
+    enabled: yes
+
+- name: Libera porta 80
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+  notify: Reload Firewalld
+
+
+- name: Backup Config NGIX
+  command: cp -ar /etc/nginx /etc/nginx_original
+  args:
+    warn: false
+
+- name: Copiar nginx.tar.gz para o servidor
+  unarchive:
+    src: nginx.tar.gz
+    dest: /etc/
+    owner: root
+    group: root
+
+- name: Criação de diretorios do nginx
+  file: path={{item}} state=directory mode=0755 owner=nginx group=nginx
+  with_items:
+    - /var/www
+    - /var/www/html
+  notify: Restart nginx
+...
